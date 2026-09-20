@@ -6,8 +6,6 @@ A web app for managing lab equipment inventory, bookings, and returns.
 
 ## Team
 
-## Team
-
 A 4-member team building this as a college project, covering backend (equipment database, booking/return system), frontend, and integration. 
 
 ## Setup

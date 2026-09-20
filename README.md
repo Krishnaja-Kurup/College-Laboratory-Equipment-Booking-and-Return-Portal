@@ -31,8 +31,6 @@ Visit `http://127.0.0.1:5000` — it redirects to the equipment inventory page.
 
 ## Next steps
 
-## Next steps
-
 - Build booking/return routes on top of the `BookingRecord` table
 - Add a login system tied to the `User` model
 - Build out the frontend pages and connect them to the backend routes

@@ -6,8 +6,9 @@ A web app for managing lab equipment inventory, bookings, and returns.
 
 ## Team
 
-- **Person 1 — Backend Developer, Equipment & Database:** inventory model, CRUD routes, DB schema
-- **Person 2 — Backend, Booking & Return System:** booking/return workflow built on the `BookingRecord` table
+## Team
+
+A 4-member team building this as a college project, covering backend (equipment database, booking/return system), frontend, and integration. 
 
 ## Setup
 
@@ -30,6 +31,10 @@ Visit `http://127.0.0.1:5000` — it redirects to the equipment inventory page.
 
 ## Next steps
 
-- Person 2 builds booking/return routes on top of `BookingRecord`
-- Add login system tied to the `User` model
-- Add a dashboard view summarizing bookings, overdue returns, etc.
+## Next steps
+
+- Build booking/return routes on top of the `BookingRecord` table
+- Add a login system tied to the `User` model
+- Build out the frontend pages and connect them to the backend routes
+- Add a dashboard view summarizing bookings and overdue returns
+- Test the full flow end-to-end as a team before final submission

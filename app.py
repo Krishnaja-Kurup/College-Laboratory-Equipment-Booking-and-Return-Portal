@@ -2,7 +2,8 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 from config import Config
-from models import db, Equipment, User, BookingRecord
+from models import db, Equipment, User, BookingRecord 
+from booking_routes import booking_bp
 
 
 def create_app():
@@ -13,6 +14,7 @@ def create_app():
     os.makedirs(os.path.join(app.root_path, "instance"), exist_ok=True)
 
     db.init_app(app)
+    app.register_blueprint(booking_bp)
 
     with app.app_context():
         db.create_all()

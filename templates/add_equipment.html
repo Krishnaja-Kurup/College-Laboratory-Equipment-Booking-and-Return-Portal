@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Equipment{% endblock %}
+{% block content %}
+  <h2 class="mb-3">Add New Equipment</h2>
+  <form method="POST" class="w-50">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <input type="text" name="category" class="form-control" placeholder="e.g. Electronics, Glassware">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Quantity</label>
+      <input type="number" name="quantity" class="form-control" value="1" min="1" required>
+    </div>
+    <button type="submit" class="btn btn-success">Add Equipment</button>
+    <a href="{{ url_for('list_equipment') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

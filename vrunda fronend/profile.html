@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<nav>
+
+    <h2>Lab Equipment Portal</h2>
+
+    <div>
+
+        <a href="/student/dashboard">Dashboard</a>
+
+        <a href="/equipment">Equipment</a>
+
+        <a href="/student/bookings">My Bookings</a>
+
+        <a href="/student/profile">Profile</a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>My Profile</h1>
+
+
+    <div class="profile-box">
+
+        <label>Name</label>
+
+        <input type="text"
+               id="name"
+               placeholder="Student name">
+
+
+        <label>Email</label>
+
+        <input type="email"
+               id="email"
+               placeholder="Student email">
+
+
+        <label>Role</label>
+
+        <input type="text"
+               id="role"
+               value="Student"
+               readonly>
+
+
+        <button onclick="updateProfile()">
+            Update Profile
+        </button>
+
+    </div>
+
+
+    <p id="profileMessage"></p>
+
+</div>
+
+
+<script>
+
+function updateProfile() {
+
+    document.getElementById("profileMessage").innerHTML =
+        "Profile updated successfully.";
+
+}
+
+</script>
+
+
+</body>
+</html>

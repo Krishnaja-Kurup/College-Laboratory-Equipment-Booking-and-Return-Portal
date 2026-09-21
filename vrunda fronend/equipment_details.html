@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Equipment Details</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<nav>
+
+    <h2>Lab Equipment Portal</h2>
+
+    <div>
+
+        <a href="/student/dashboard">Dashboard</a>
+
+        <a href="/equipment">Equipment</a>
+
+        <a href="/student/bookings">My Bookings</a>
+
+        <a href="/student/profile">Profile</a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Equipment Details</h1>
+
+
+    <div id="equipmentDetails">
+
+        <p>Loading...</p>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/equipment_details.js') }}">
+</script>
+
+</body>
+</html>

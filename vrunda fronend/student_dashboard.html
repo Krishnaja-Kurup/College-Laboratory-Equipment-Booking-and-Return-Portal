@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav>
+
+    <h2>Lab Equipment Portal</h2>
+
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/equipment">Equipment</a>
+        <a href="/student/bookings">My Bookings</a>
+        <a href="/student/profile">Profile</a>
+        <a href="/student/login">Logout</a>
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Student Dashboard</h1>
+
+    <p>Welcome to the Laboratory Equipment Booking Portal.</p>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Total Equipment</h3>
+
+            <p id="totalEquipment">
+                Loading...
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Available Equipment</h3>
+
+            <p id="availableEquipment">
+                Loading...
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>My Bookings</h3>
+
+            <p id="myBookings">
+                0
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h2>Quick Actions</h2>
+
+    <a href="/equipment">
+        <button>Browse Equipment</button>
+    </a>
+
+    <a href="/student/bookings">
+        <button>My Bookings</button>
+    </a>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Laboratory Equipment</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav>
+
+    <h2>Lab Equipment Portal</h2>
+
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/equipment">Equipment</a>
+        <a href="/student/bookings">My Bookings</a>
+        <a href="/student/profile">Profile</a>
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+    <h1>Laboratory Equipment</h1>
+
+
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search equipment..."
+    >
+
+
+    <div id="equipmentList">
+
+        <p>Loading equipment...</p>
+
+    </div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/equipment.js') }}"></script>
+
+</body>
+</html>

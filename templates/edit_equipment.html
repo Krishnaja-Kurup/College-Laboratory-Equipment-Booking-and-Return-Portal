@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Edit Equipment{% endblock %}
+{% block content %}
+  <h2 class="mb-3">Edit Equipment</h2>
+  <form method="POST" class="w-50">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" name="name" class="form-control" value="{{ item.name }}" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <input type="text" name="category" class="form-control" value="{{ item.category }}">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Total Quantity</label>
+      <input type="number" name="quantity" class="form-control" value="{{ item.total_quantity }}" min="0" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Status</label>
+      <select name="status" class="form-select">
+        {% for s in ["Available", "Under Maintenance", "Out of Stock"] %}
+          <option value="{{ s }}" {% if item.status == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{{ url_for('list_equipment') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

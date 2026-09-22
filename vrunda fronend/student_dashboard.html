@@ -1,88 +1,317 @@
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
+
     <title>Student Dashboard</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 
 <body>
 
-<nav>
 
-    <h2>Lab Equipment Portal</h2>
+<!-- SIDEBAR -->
 
-    <div>
-        <a href="/student/dashboard">Dashboard</a>
-        <a href="/equipment">Equipment</a>
-        <a href="/student/bookings">My Bookings</a>
-        <a href="/student/profile">Profile</a>
-        <a href="/student/login">Logout</a>
-    </div>
-
-</nav>
+<aside class="sidebar">
 
 
-<div class="container">
+    <div class="logo">
 
-    <h1>Student Dashboard</h1>
-
-    <p>Welcome to the Laboratory Equipment Booking Portal.</p>
-
-
-    <div class="cards">
-
-        <div class="card">
-
-            <h3>Total Equipment</h3>
-
-            <p id="totalEquipment">
-                Loading...
-            </p>
-
+        <div class="logo-icon">
+            🧪
         </div>
 
+        <h2>
+            Lab Portal
+        </h2>
 
-        <div class="card">
-
-            <h3>Available Equipment</h3>
-
-            <p id="availableEquipment">
-                Loading...
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>My Bookings</h3>
-
-            <p id="myBookings">
-                0
-            </p>
-
-        </div>
+        <p>
+            Student Panel
+        </p>
 
     </div>
 
 
-    <h2>Quick Actions</h2>
+    <ul class="sidebar-menu">
 
-    <a href="/equipment">
-        <button>Browse Equipment</button>
-    </a>
+        <li>
+            <a href="/student/dashboard"
+               class="active">
 
-    <a href="/student/bookings">
-        <button>My Bookings</button>
-    </a>
+                <span>🏠</span>
+                Dashboard
 
-</div>
+            </a>
+        </li>
 
 
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+        <li>
+
+            <a href="/equipment">
+
+                <span>🧪</span>
+                Equipment
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/student/bookings">
+
+                <span>📋</span>
+                My Bookings
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/student/profile">
+
+                <span>👤</span>
+                My Profile
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/student/login">
+
+                <span>🚪</span>
+                Logout
+
+            </a>
+
+        </li>
+
+    </ul>
+
+
+</aside>
+
+
+
+<!-- MAIN CONTENT -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-title">
+            Student Dashboard
+        </div>
+
+
+        <div class="student-info">
+
+            <div class="student-avatar">
+                S
+            </div>
+
+            <span>
+                Student
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- PAGE -->
+
+    <div class="container">
+
+
+        <h1 class="page-title">
+            Welcome back! 👋
+        </h1>
+
+        <p class="page-subtitle">
+            Manage your laboratory equipment bookings from here.
+        </p>
+
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    🧪
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Total Equipment
+                    </h3>
+
+                    <p id="totalEquipment">
+                        ...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon green-icon">
+                    🟢
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Available Equipment
+                    </h3>
+
+                    <p id="availableEquipment">
+                        ...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon orange-icon">
+                    📋
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        My Bookings
+                    </h3>
+
+                    <p id="myBookings">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="section-header">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    🔍
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Find Equipment
+                    </h3>
+
+                    <p style="font-size:14px;font-weight:normal;">
+                        Browse available laboratory equipment.
+                    </p>
+
+                    <a href="/equipment">
+
+                        <button>
+                            Browse Equipment
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-icon orange-icon">
+                    📋
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        My Bookings
+                    </h3>
+
+                    <p style="font-size:14px;font-weight:normal;">
+                        View and manage your bookings.
+                    </p>
+
+                    <a href="/student/bookings">
+
+                        <button>
+                            View Bookings
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}">
+</script>
+
 
 </body>
+
 </html>
+

@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Laboratory Equipment Catalog{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="mb-1 text-primary">Laboratory Equipment</h2>
+        <p class="text-muted mb-0">Browse and reserve instruments and apparatus for your practicals and research</p>
+    </div>
+    <span class="badge bg-light text-dark border p-2">
+        <i class="bi bi-box-seam me-1 text-primary"></i> {{ equipment_list|length }} Items Listed
+    </span>
+</div>
+
+<!-- Search & Filter Controls -->
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-body p-3">
+        <form method="GET" action="{{ url_for('student.equipment') }}" class="row g-2 align-items-center">
+            <div class="col-12 col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" id="equipmentSearchInput" name="search" class="form-control border-start-0" placeholder="Search by equipment name, specification, or category..." value="{{ search_query }}">
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-funnel text-muted"></i>
+                    </span>
+                    <select id="equipmentCategorySelect" name="category" class="form-select border-start-0">
+                        <option value="All" {% if not selected_category or selected_category == 'All' %}selected{% endif %}>All Categories</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-filter me-1"></i> Filter
+                </button>
+                {% if search_query or (selected_category and selected_category != 'All') %}
+                    <a href="{{ url_for('student.equipment') }}" class="btn btn-outline-secondary" title="Reset Filters">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Equipment Cards Grid -->
+<div class="row g-4" id="equipmentGrid">
+    {% for item in equipment_list %}
+        <div class="col-12 col-md-6 col-lg-4 equipment-card-item"
+             data-name="{{ item.name|lower }}"
+             data-category="{{ item.category }}"
+             data-description="{{ item.description|lower if item.description else '' }}">
+            <div class="card h-100 card-hover shadow-sm border">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-light text-primary border">
+                            <i class="bi bi-tag me-1"></i>{{ item.category }}
+                        </span>
+                        <span class="badge {{ item.status_badge_class }}">
+                            {{ item.status }}
+                        </span>
+                    </div>
+
+                    <h5 class="card-title text-dark mb-2">{{ item.name }}</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        {{ item.description|truncate(120, True, '...') if item.description else 'No specific instructions provided.' }}
+                    </p>
+
+                    <div class="bg-light p-2 rounded mb-3">
+                        <div class="d-flex justify-content-between small">
+                            <span class="text-muted">Available Stock:</span>
+                            <span class="fw-bold {% if item.available_quantity > 0 %}text-success{% else %}text-danger{% endif %}">
+                                {{ item.available_quantity }} / {{ item.total_quantity }} units
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <a href="{{ url_for('student.equipment_details', id=item.id) }}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-info-circle me-1"></i> View Details & Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-12">
+            <div class="card p-5 text-center bg-white border">
+                <i class="bi bi-search fs-1 text-muted mb-2"></i>
+                <h5>No equipment found</h5>
+                <p class="text-muted">Try adjusting your search terms or category filter.</p>
+                <div>
+                    <a href="{{ url_for('student.equipment') }}" class="btn btn-outline-primary btn-sm">
+                        View All Equipment
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Dynamic JS No Results Placeholder -->
+<div id="noEquipmentMessage" class="col-12 py-5 text-center bg-white rounded border shadow-sm mt-3" style="display: none;">
+    <i class="bi bi-binoculars fs-1 text-muted mb-2 d-block"></i>
+    <h5>No matching equipment found</h5>
+    <p class="text-muted mb-0">Try clearing the search query or changing the category filter.</p>
+</div>
+{% endblock %}

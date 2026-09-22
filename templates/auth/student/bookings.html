@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="mb-1 text-primary">My Laboratory Bookings</h2>
+        <p class="text-muted mb-0">Track your current equipment loans, approval statuses, and return records</p>
+    </div>
+    <a href="{{ url_for('student.equipment') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Book New Equipment
+    </a>
+</div>
+
+<div class="card shadow-sm border">
+    <div class="card-body p-0">
+        {% if bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Booking ID</th>
+                            <th>Equipment Name</th>
+                            <th class="text-center">Quantity</th>
+                            <th>Booking Date</th>
+                            <th>Due Date</th>
+                            <th>Returned Date</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in bookings %}
+                            <tr>
+                                <td class="ps-4 text-muted fw-bold">#{{ b.id }}</td>
+                                <td>
+                                    <strong>{{ b.equipment.name }}</strong>
+                                    <div class="small text-muted">{{ b.equipment.category }}</div>
+                                </td>
+                                <td class="text-center fw-bold">{{ b.quantity }}</td>
+                                <td>{{ b.booking_date.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    {{ b.due_date.strftime('%b %d, %Y') }}
+                                    {% if b.is_overdue and b.status in ['Approved', 'Booked'] %}
+                                        <span class="badge bg-danger ms-1">Overdue</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if b.returned_date %}
+                                        <span class="text-success small">
+                                            <i class="bi bi-check2 me-1"></i>{{ b.returned_date.strftime('%b %d, %Y') }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted small">&mdash;</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge {{ b.status_badge_class }}">
+                                        {{ b.display_status }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    {% if b.status in ['Approved', 'Booked', 'Pending'] %}
+                                        <form method="POST" action="{{ url_for('student.return_equipment', booking_id=b.id) }}" class="d-inline" onsubmit="return confirmReturn('{{ b.equipment.name }}');">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-arrow-return-left me-1"></i> Return Equipment
+                                            </button>
+                                        </form>
+                                    {% elif b.status == 'Returned' %}
+                                        <span class="badge bg-light text-success border">
+                                            <i class="bi bi-check-circle me-1"></i> Completed
+                                        </span>
+                                    {% elif b.status == 'Rejected' %}
+                                        <span class="badge bg-light text-secondary border">
+                                            Cancelled
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-x fs-1 text-muted d-block mb-3"></i>
+                <h5>No Bookings Found</h5>
+                <p class="text-muted mb-4">You have not booked any laboratory equipment yet.</p>
+                <a href="{{ url_for('student.equipment') }}" class="btn btn-primary">
+                    <i class="bi bi-grid-3x3-gap me-1"></i> Explore Equipment Catalog
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

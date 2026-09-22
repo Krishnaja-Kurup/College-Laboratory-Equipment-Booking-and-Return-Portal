@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-white rounded-3 border shadow-sm d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <h2 class="mb-1 text-primary">Welcome, {{ session_user_name }}!</h2>
+                <p class="text-muted mb-0">College Laboratory Equipment Booking and Return System</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{{ url_for('student.equipment') }}" class="btn btn-primary">
+                    <i class="bi bi-search me-1"></i> Browse Equipment
+                </a>
+                <a href="{{ url_for('student.bookings') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-journal-check me-1"></i> My Bookings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Metric Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="card stat-card shadow-sm h-100 p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted text-uppercase small fw-bold">Total Equipment</span>
+                    <div class="stat-number text-primary mt-1">{{ total_equipment }}</div>
+                    <span class="small text-muted">Laboratory catalog items</span>
+                </div>
+                <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
+                    <i class="bi bi-cpu fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-4">
+        <div class="card stat-card success-border shadow-sm h-100 p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted text-uppercase small fw-bold">Available Equipment</span>
+                    <div class="stat-number text-success mt-1">{{ available_equipment }}</div>
+                    <span class="small text-muted">Ready for instant booking</span>
+                </div>
+                <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle">
+                    <i class="bi bi-check-circle fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <div class="card stat-card warning-border shadow-sm h-100 p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted text-uppercase small fw-bold">My Active Bookings</span>
+                    <div class="stat-number text-warning text-dark mt-1">{{ active_bookings_count }}</div>
+                    <span class="small text-muted">Currently held or pending</span>
+                </div>
+                <div class="p-3 bg-warning bg-opacity-10 text-warning text-dark rounded-circle">
+                    <i class="bi bi-bookmark-star fs-3"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Active Bookings Section -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-dark">
+            <i class="bi bi-clock-history me-2 text-primary"></i>Recent Bookings
+        </h5>
+        <a href="{{ url_for('student.bookings') }}" class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+    <div class="card-body p-0">
+        {% if recent_bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Equipment</th>
+                            <th class="text-center">Quantity</th>
+                            <th>Booking Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in recent_bookings %}
+                            <tr>
+                                <td class="fw-medium">{{ b.equipment.name }}</td>
+                                <td class="text-center">{{ b.quantity }}</td>
+                                <td>{{ b.booking_date.strftime('%b %d, %Y') }}</td>
+                                <td>{{ b.due_date.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    <span class="badge {{ b.status_badge_class }}">
+                                        {{ b.display_status }}
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    {% if b.status in ['Approved', 'Booked', 'Pending'] %}
+                                        <form method="POST" action="{{ url_for('student.return_equipment', booking_id=b.id) }}" class="d-inline" onsubmit="return confirmReturn('{{ b.equipment.name }}');">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-arrow-return-left me-1"></i> Return
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <span class="text-muted small">Completed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
+                <p class="text-muted mb-3">You haven't made any equipment bookings yet.</p>
+                <a href="{{ url_for('student.equipment') }}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i> Book Laboratory Equipment
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

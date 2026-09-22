@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Admin Login - Lab Portal</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<div class="login-page">
+
+
+    <div class="login-left">
+
+        <div class="login-left-content">
+
+            <div class="logo-icon">
+                🧪
+            </div>
+
+            <h1>
+                Laboratory
+                Management System
+            </h1>
+
+            <p>
+                Administrator portal for managing
+                laboratory equipment, students and bookings.
+            </p>
+
+            <ul class="login-features">
+
+                <li>🧪 Manage Equipment</li>
+                <li>📋 Manage Bookings</li>
+                <li>👥 Manage Students</li>
+                <li>📊 View Dashboard</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="login-right">
+
+        <div class="login-box">
+
+            <h2>
+                Admin Login
+            </h2>
+
+            <p class="subtitle">
+                Sign in to manage the laboratory portal.
+            </p>
+
+
+            <form id="adminLoginForm">
+
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="admin@example.com"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Enter password"
+                    required
+                >
+
+
+                <button type="submit">
+                    Admin Login
+                </button>
+
+
+            </form>
+
+
+            <p id="adminLoginMessage"></p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script src="{{ url_for('static',
+filename='js/admin/admin_login.js') }}">
+</script>
+
+
+</body>
+
+</html>

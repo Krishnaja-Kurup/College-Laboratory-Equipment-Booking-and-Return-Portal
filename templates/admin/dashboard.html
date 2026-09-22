@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🧪
+        </div>
+
+        <h2>
+            Lab Portal
+        </h2>
+
+        <p>
+            Admin Panel
+        </p>
+
+    </div>
+
+
+    <ul class="sidebar-menu">
+
+        <li>
+
+            <a href="/admin/dashboard"
+               class="active">
+
+                <span>📊</span>
+                Dashboard
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/admin/equipment">
+
+                <span>🧪</span>
+                Equipment
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/admin/bookings">
+
+                <span>📋</span>
+                Bookings
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/admin/users">
+
+                <span>👥</span>
+                Students
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/student/login">
+
+                <span>🚪</span>
+                Logout
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main-content">
+
+
+    <header class="topbar">
+
+        <div class="topbar-title">
+            Admin Dashboard
+        </div>
+
+
+        <div class="student-info">
+
+            <div class="student-avatar">
+                A
+            </div>
+
+            <span>
+                Administrator
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <div class="container">
+
+
+        <h1 class="page-title">
+            Dashboard
+        </h1>
+
+        <p class="page-subtitle">
+            Overview of the laboratory equipment system.
+        </p>
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    🧪
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Total Equipment
+                    </h3>
+
+                    <p id="totalEquipment">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green-icon">
+                    🟢
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Available Equipment
+                    </h3>
+
+                    <p id="availableEquipment">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange-icon">
+                    📋
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Total Bookings
+                    </h3>
+
+                    <p id="totalBookings">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    👥
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Students
+                    </h3>
+
+                    <p id="totalStudents">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="section-header">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    ➕
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        Add Equipment
+                    </h3>
+
+                    <p style="font-size:14px;font-weight:normal;">
+                        Add new laboratory equipment.
+                    </p>
+
+                    <a href="/admin/equipment/add">
+
+                        <button>
+                            Add Equipment
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange-icon">
+                    📋
+                </div>
+
+                <div class="card-info">
+
+                    <h3>
+                        View Bookings
+                    </h3>
+
+                    <p style="font-size:14px;font-weight:normal;">
+                        Manage student bookings.
+                    </p>
+
+                    <a href="/admin/bookings">
+
+                        <button>
+                            View Bookings
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<script src="{{ url_for('static',
+filename='js/admin/admin_dashboard.js') }}">
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Add Equipment - Admin{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('admin.equipment') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm border">
+            <div class="card-header bg-white py-3">
+                <h4 class="mb-0 text-primary">
+                    <i class="bi bi-plus-circle me-2"></i>Add New Laboratory Equipment
+                </h4>
+                <p class="text-muted small mb-0">Record a new apparatus or instrument in the college laboratory catalog</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('admin.add_equipment') }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            Equipment Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Digital Storage Oscilloscope (100MHz)" required autofocus>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="category" class="form-label">
+                                Category <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="category" name="category" list="categoryOptions" placeholder="e.g. Electronics, Chemistry, Physics" required>
+                            <datalist id="categoryOptions">
+                                <option value="Electronics">
+                                <option value="Electrical">
+                                <option value="Biotechnology">
+                                <option value="Chemistry">
+                                <option value="Physics">
+                                <option value="Mechanical">
+                            </datalist>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="total_quantity" class="form-label">
+                                Total Quantity <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control" id="total_quantity" name="total_quantity" min="1" value="1" required>
+                            <div class="form-text">Available quantity will automatically match initial stock.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description & Specifications</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter instrument technical specifications, safety instructions, or lab room location..."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('admin.equipment') }}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-lg me-1"></i> Save Equipment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

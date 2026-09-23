@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Equipment #{{ equipment.id }} - Admin{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{{ url_for('admin.equipment') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Back to Inventory
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm border">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0 text-primary">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Equipment
+                    </h4>
+                    <p class="text-muted small mb-0">Modify specifications and adjust inventory counts</p>
+                </div>
+                <span class="badge {{ equipment.status_badge_class }} fs-6">
+                    {{ equipment.status }}
+                </span>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('admin.edit_equipment', id=equipment.id) }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            Equipment Name <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ equipment.name }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">
+                            Category <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="category" name="category" list="categoryOptions" value="{{ equipment.category }}" required>
+                        <datalist id="categoryOptions">
+                            <option value="Electronics">
+                            <option value="Electrical">
+                            <option value="Biotechnology">
+                            <option value="Chemistry">
+                            <option value="Physics">
+                            <option value="Mechanical">
+                        </datalist>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="total_quantity" class="form-label">
+                                Total Quantity <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control" id="total_quantity" name="total_quantity" min="0" value="{{ equipment.total_quantity }}" required>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="available_quantity" class="form-label">
+                                Available Quantity <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" class="form-control" id="available_quantity" name="available_quantity" min="0" max="{{ equipment.total_quantity }}" value="{{ equipment.available_quantity }}" required>
+                            <div class="form-text">Cannot exceed Total Quantity. Status updates automatically.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description & Specifications</label>
+                        <textarea class="form-control" id="description" name="description" rows="4">{{ equipment.description or '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ url_for('admin.equipment') }}" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Update Equipment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

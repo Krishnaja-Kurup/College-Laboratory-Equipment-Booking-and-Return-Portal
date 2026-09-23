@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="mb-1 text-primary">
+            <i class="bi bi-shield-check me-2"></i>Administrator Console
+        </h2>
+        <p class="text-muted mb-0">Overview of laboratory inventory, bookings, student requests, and returns</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{{ url_for('admin.add_equipment') }}" class="btn btn-success">
+            <i class="bi bi-plus-lg me-1"></i> Add Equipment
+        </a>
+        <a href="{{ url_for('admin.bookings') }}" class="btn btn-outline-primary">
+            <i class="bi bi-card-checklist me-1"></i> Manage Bookings
+        </a>
+    </div>
+</div>
+
+<!-- 6 Admin Metric Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">Total Items</span>
+            <div class="stat-number text-primary mt-1">{{ total_equipment }}</div>
+            <span class="small text-muted">In Inventory</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card success-border shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">Available</span>
+            <div class="stat-number text-success mt-1">{{ available_equipment }}</div>
+            <span class="small text-muted">Ready to Issue</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">Students</span>
+            <div class="stat-number text-info text-dark mt-1">{{ total_students }}</div>
+            <span class="small text-muted">Registered Users</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">All Bookings</span>
+            <div class="stat-number text-dark mt-1">{{ total_bookings }}</div>
+            <span class="small text-muted">Historical Total</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card warning-border shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">Pending</span>
+            <div class="stat-number text-warning text-dark mt-1">{{ pending_bookings }}</div>
+            <span class="small text-muted">Awaiting Action</span>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-4 col-lg-2">
+        <div class="card stat-card success-border shadow-sm p-3 h-100">
+            <span class="text-muted small fw-bold text-uppercase">Returned</span>
+            <div class="stat-number text-success mt-1">{{ returned_equipment }}</div>
+            <span class="small text-muted">Restocked</span>
+        </div>
+    </div>
+</div>
+
+<!-- Pending Approvals Section -->
+<div class="card shadow-sm border mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-dark">
+            <i class="bi bi-exclamation-circle text-warning me-2"></i>Pending Booking Requests
+            {% if pending_list %}
+                <span class="badge bg-warning text-dark ms-2">{{ pending_list|length }} Action Required</span>
+            {% endif %}
+        </h5>
+        <a href="{{ url_for('admin.bookings', status='Pending') }}" class="btn btn-sm btn-outline-primary">
+            View All Pending
+        </a>
+    </div>
+    <div class="card-body p-0">
+        {% if pending_list %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Student</th>
+                            <th>Equipment</th>
+                            <th class="text-center">Quantity</th>
+                            <th>Requested On</th>
+                            <th>Due Date</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in pending_list %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-muted">#{{ b.id }}</td>
+                                <td>
+                                    <strong>{{ b.user.name }}</strong>
+                                    <div class="small text-muted">{{ b.user.email }}</div>
+                                </td>
+                                <td>
+                                    <strong>{{ b.equipment.name }}</strong>
+                                    <div class="small text-muted">{{ b.equipment.category }}</div>
+                                </td>
+                                <td class="text-center fw-bold">{{ b.quantity }}</td>
+                                <td>{{ b.booking_date.strftime('%b %d, %Y') }}</td>
+                                <td>{{ b.due_date.strftime('%b %d, %Y') }}</td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <form method="POST" action="{{ url_for('admin.approve_booking', id=b.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-lg me-1"></i> Approve
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="{{ url_for('admin.reject_booking', id=b.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-x-lg me-1"></i> Reject
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-4 text-muted">
+                <i class="bi bi-check2-all fs-2 text-success d-block mb-1"></i>
+                <p class="mb-0">No pending booking requests right now. All requests are up to date!</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Overall Activity Table -->
+<div class="card shadow-sm border">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 text-dark">
+            <i class="bi bi-clock-history text-primary me-2"></i>Recent System Activity
+        </h5>
+        <a href="{{ url_for('admin.bookings') }}" class="btn btn-sm btn-outline-secondary">
+            Full Booking History
+        </a>
+    </div>
+    <div class="card-body p-0">
+        {% if recent_bookings %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Student</th>
+                            <th>Equipment</th>
+                            <th class="text-center">Qty</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in recent_bookings %}
+                            <tr>
+                                <td class="ps-4 text-muted">#{{ b.id }}</td>
+                                <td>{{ b.user.name }}</td>
+                                <td>{{ b.equipment.name }}</td>
+                                <td class="text-center">{{ b.quantity }}</td>
+                                <td>{{ b.due_date.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    <span class="badge {{ b.status_badge_class }}">{{ b.display_status }}</span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    {% if b.status in ['Approved', 'Booked'] %}
+                                        <form method="POST" action="{{ url_for('admin.return_booking', id=b.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-box-arrow-in-left me-1"></i> Mark Returned
+                                            </button>
+                                        </form>
+                                    {% elif b.status == 'Pending' %}
+                                        <form method="POST" action="{{ url_for('admin.approve_booking', id=b.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                        </form>
+                                    {% else %}
+                                        <span class="text-muted small">&mdash;</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
